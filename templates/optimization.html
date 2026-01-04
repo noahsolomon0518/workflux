@@ -1,0 +1,289 @@
+{% extends "base.html" %}
+
+{% block title %}Stock Optimization - Stock Size Selector{% endblock %}
+
+{% block content %}
+<div class="card">
+    <h2>Stock Size Optimization</h2>
+    <p style="margin-bottom: 2rem; color: #666;">
+        Parts grouped by compatible stock sizes to minimize material costs and waste.
+    </p>
+    
+    <div id="optimization-container">
+        {% if groups %}
+            {% for group in groups %}
+            <div class="optimization-group">
+                <div class="group-header">
+                    <h3>Stock Group {{ loop.index }}</h3>
+                    <div class="group-info">
+                        <span class="stock-spec">
+                            Material: {{ group.stock_size.material_type }}
+                            | Length: {{ group.stock_size.length }}"
+                            {% if group.stock_size.diameter %}
+                                | Diameter: {{ group.stock_size.diameter }}"
+                            {% endif %}
+                            {% if group.stock_size.width %}
+                                | Width: {{ group.stock_size.width }}"
+                                | Height: {{ group.stock_size.height }}"
+                            {% endif %}
+                        </span>
+                        {% if group.parts|length > 1 %}
+                        <span class="savings-badge">
+                            💰 Est. Savings: ${{ group.cost_savings }}
+                        </span>
+                        {% endif %}
+                    </div>
+                </div>
+                
+                <div class="flowchart">
+                    <div class="stock-node">
+                        <div class="node-title">Stock Material</div>
+                        <div class="node-content">
+                            {{ group.stock_size.material_type }}<br>
+                            {{ group.stock_size.length }}"
+                            {% if group.stock_size.diameter %}
+                                × Ø{{ group.stock_size.diameter }}"
+                            {% elif group.stock_size.width %}
+                                × {{ group.stock_size.width }}" × {{ group.stock_size.height }}"
+                            {% endif %}
+                        </div>
+                    </div>
+                    
+                    <div class="connector-line"></div>
+                    
+                    <div class="parts-nodes">
+                        {% for part in group.parts %}
+                        <div class="part-node">
+                            <div class="node-title">{{ part.name }}</div>
+                            <div class="node-content">
+                                Finished: {{ part.dimensions.length }}"
+                                {% if part.dimensions.diameter %}
+                                    × Ø{{ part.dimensions.diameter }}"
+                                {% elif part.dimensions.width %}
+                                    × {{ part.dimensions.width }}" × {{ part.dimensions.height }}"
+                                {% endif %}
+                            </div>
+                            <div class="node-operations">
+                                {% if part.operations.lathe %}
+                                    <span class="op-badge">🔧 Lathe</span>
+                                {% endif %}
+                                {% if part.operations.milling %}
+                                    <span class="op-badge">⚙️ Mill</span>
+                                {% endif %}
+                                {% if part.operations.welding %}
+                                    <span class="op-badge">🔥 Weld</span>
+                                {% endif %}
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+            
+            <div class="summary-card">
+                <h3>Optimization Summary</h3>
+                <div class="summary-stats">
+                    <div class="stat">
+                        <div class="stat-value">{{ groups|length }}</div>
+                        <div class="stat-label">Stock Groups</div>
+                    </div>
+                    <div class="stat">
+                        <div class="stat-value">
+                            {% set total_parts = namespace(count=0) %}
+                            {% for group in groups %}
+                                {% set total_parts.count = total_parts.count + group.parts|length %}
+                            {% endfor %}
+                            {{ total_parts.count }}
+                        </div>
+                        <div class="stat-label">Total Parts</div>
+                    </div>
+                    <div class="stat">
+                        <div class="stat-value">
+                            {% set total_savings = namespace(amount=0) %}
+                            {% for group in groups %}
+                                {% set total_savings.amount = total_savings.amount + group.cost_savings %}
+                            {% endfor %}
+                            ${{ "%.2f"|format(total_savings.amount) }}
+                        </div>
+                        <div class="stat-label">Est. Total Savings</div>
+                    </div>
+                </div>
+            </div>
+        {% else %}
+            <p class="empty-message">
+                No parts to optimize yet. <a href="/">Add some parts</a> to see optimization opportunities.
+            </p>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_styles %}
+<style>
+    .optimization-group {
+        margin-bottom: 3rem;
+        padding: 1.5rem;
+        background: white;
+        border: 2px solid #e0e0e0;
+        border-radius: 8px;
+    }
+    
+    .group-header {
+        margin-bottom: 1.5rem;
+    }
+    
+    .group-header h3 {
+        color: #2c3e50;
+        margin-bottom: 0.5rem;
+    }
+    
+    .group-info {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: 1rem;
+    }
+    
+    .stock-spec {
+        color: #555;
+        font-size: 0.95rem;
+    }
+    
+    .savings-badge {
+        background: #27ae60;
+        color: white;
+        padding: 0.5rem 1rem;
+        border-radius: 20px;
+        font-weight: 600;
+        font-size: 0.9rem;
+    }
+    
+    .flowchart {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding: 2rem 0;
+    }
+    
+    .stock-node {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        padding: 1.5rem;
+        border-radius: 8px;
+        min-width: 300px;
+        text-align: center;
+        box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    }
+    
+    .connector-line {
+        width: 3px;
+        height: 50px;
+        background: linear-gradient(180deg, #764ba2 0%, #3498db 100%);
+        margin: 0.5rem 0;
+    }
+    
+    .parts-nodes {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 1.5rem;
+        width: 100%;
+        max-width: 1000px;
+    }
+    
+    .part-node {
+        background: linear-gradient(135deg, #3498db 0%, #2980b9 100%);
+        color: white;
+        padding: 1.5rem;
+        border-radius: 8px;
+        box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        transition: transform 0.3s;
+    }
+    
+    .part-node:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 6px 12px rgba(0,0,0,0.15);
+    }
+    
+    .node-title {
+        font-weight: 600;
+        font-size: 1.1rem;
+        margin-bottom: 0.5rem;
+        padding-bottom: 0.5rem;
+        border-bottom: 1px solid rgba(255,255,255,0.3);
+    }
+    
+    .node-content {
+        font-size: 0.9rem;
+        margin-bottom: 0.75rem;
+        line-height: 1.5;
+    }
+    
+    .node-operations {
+        display: flex;
+        gap: 0.5rem;
+        flex-wrap: wrap;
+    }
+    
+    .op-badge {
+        background: rgba(255,255,255,0.2);
+        padding: 0.25rem 0.75rem;
+        border-radius: 12px;
+        font-size: 0.85rem;
+    }
+    
+    .summary-card {
+        background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+        color: white;
+        padding: 2rem;
+        border-radius: 8px;
+        margin-top: 2rem;
+    }
+    
+    .summary-card h3 {
+        color: white;
+        margin-bottom: 1.5rem;
+        text-align: center;
+    }
+    
+    .summary-stats {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+        gap: 2rem;
+    }
+    
+    .stat {
+        text-align: center;
+    }
+    
+    .stat-value {
+        font-size: 2.5rem;
+        font-weight: 700;
+        margin-bottom: 0.5rem;
+    }
+    
+    .stat-label {
+        font-size: 0.9rem;
+        opacity: 0.9;
+    }
+    
+    .empty-message {
+        text-align: center;
+        padding: 4rem;
+        color: #666;
+        font-size: 1.2rem;
+    }
+    
+    .empty-message a {
+        color: #3498db;
+        text-decoration: none;
+        font-weight: 600;
+    }
+    
+    .empty-message a:hover {
+        text-decoration: underline;
+    }
+</style>
+{% endblock %}
+{% endblock %}
