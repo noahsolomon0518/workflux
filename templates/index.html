@@ -10,141 +10,59 @@
     <form id="part-form">
         <!-- Basic Info -->
         <div class="section">
-            <h3>Part Information</h3>
+
             <div class="form-group">
-                <label for="part-name">Part Name/Number *</label>
-                <input type="text" id="part-name" name="name" required>
-            </div>
-            
-            <div class="form-group">
-                <label for="material-type">Material Type *</label>
-                <select id="material-type" name="material_type" required>
-                    <option value="">Select Material</option>
-                    <option value="aluminum-6061">Aluminum 6061</option>
-                    <option value="aluminum-7075">Aluminum 7075</option>
-                    <option value="steel-1018">Steel 1018</option>
-                    <option value="steel-4140">Steel 4140</option>
-                    <option value="stainless-304">Stainless 304</option>
-                    <option value="stainless-316">Stainless 316</option>
-                    <option value="brass">Brass</option>
-                    <option value="bronze">Bronze</option>
-                    <option value="titanium">Titanium</option>
-                </select>
+                <label for="external-part-number">External Part Number</label>
+                <input type="text" id="external-part-number" name="external_part_number" placeholder="e.g. EXT-001">
             </div>
 
-             <div class="form-group">
-                <label for="operation">Operation *</label>
-                <select id="operation" name="operation" required>
-                    <option value="">Select Operation</option>
-                    <option value="turning">Turning</option>
-                    <option value="milling">Milling</option>
-                    <option value="grinding">Grinding</option>
-                    <option value="drilling">Drilling</option>
-                </select>
-            </div>
-        </div>
-
-        <!-- Dimensions -->
-        <div class="section">
-            <h3>Finished Part Dimensions</h3>
             <div class="form-group">
-                <label for="stock-shape">Stock Shape *</label>
-                <select id="stock-shape" name="stock_shape" required>
-                    <option value="round">Round</option>
-                    <option value="hex">Hex</option>
-                    <option value="square">Square</option>
-                    <option value="rectangular">Rectangular</option>
-                </select>
-            </div>
-            
-            <div class="form-group">
-                <label for="stock-type">Stock Type *</label>
-                <select id="stock-type" name="stock_type" required>
-                    <option value="bar">Bar</option>
-                    <option value="tube">Tube</option>
-                </select>
+                <label for="external-part-name">External Part Name</label>
+                <input type="text" id="external-part-name" name="external_part_name" placeholder="e.g. Widget">
             </div>
 
             <div class="form-row">
                 <div class="form-group">
-                    <label for="length">Length (inches) *</label>
-                    <input type="number" id="length" name="length" step="0.001" required>
+                    <label for="revision-number">Revision Number</label>
+                    <input type="text" id="revision-number" name="revision_number" placeholder="A">
                 </div>
 
-                <div class="form-group" id="diameter-group">
-                    <label for="diameter">Diameter (inches) *</label>
-                    <input type="number" id="diameter" name="diameter" step="0.001">
+                <div class="form-group">
+                    <label for="approval-engineer">Approval Engineer</label>
+                    <input type="text" id="approval-engineer" name="approval_engineer" placeholder="Engineer Name">
                 </div>
-
-                <!-- <div class="form-group hidden" id="width-group">
-                    <label for="width">Width (inches)</label>
-                    <input type="number" id="width" name="width" step="0.001">
-                </div>
-
-                <div class="form-group hidden" id="height-group">
-                    <label for="height">Height (inches)</label>
-                    <input type="number" id="height" name="height" step="0.001">
-                </div> -->
             </div>
 
-            <div class="form-row">
-                <div class="form-group">
-                    <label for="quantity">Quantity *</label>
-                    <input type="number" id="quantity" name="quantity" min="1" value="1" required>
-                </div>
+            <div class="form-group">
+                <label><input type="checkbox" id="associate-company" name="associate_company"> Associate this part with a company</label>
+            </div>
 
-                <div class="form-group">
-                    <label for="extra-quantity">Extra Quantity</label>
-                    <input type="number" id="extra-quantity" name="extra_quantity" min="0" value="0">
-                </div>
+            <div class="form-group hidden" id="company-group">
+                <label for="company-name">Company Name (optional)</label>
+                <input type="text" id="company-name" name="company_name" placeholder="Acme Co">
             </div>
         </div>
 
 
-        <div class="section">
-            <h3>Allowances</h3>
-            <div id="allowances" class="hidden">
-                <div class="form-row">
-                    <div class="form-group">
-                        <label for="chuck-grip">Chuck Jaw Grip (inches)</label>
-                        <input type="number" id="chuck-grip" name="chuck_grip" step="0.001" value="0.500">
-                    </div>
-                    
-                    <div class="form-group">
-                        <label for="buffer-clearance">Buffer Clearance (inches)</label>
-                        <input type="number" id="buffer-clearance" name="buffer_clearance" step="0.001" value="0.125">
-                    </div>
-                    
-                    <div class="form-group">
-                        <label for="cutoff-thickness">Cutoff Tool Thickness (inches)</label>
-                        <input type="number" id="cutoff-thickness" name="cutoff_thickness" step="0.001" value="0.125">
-                    </div>
-                    
-                    <div class="form-group">
-                        <label for="face-thickness">Facing Allowance (inches)</label>
-                        <input type="number" id="face-thickness" name="face_thickness" step="0.001" value="0.050">
-                    </div>
-                    
-                    <div class="form-group">
-                        <label for="turning-allowance">Turning Allowance (diameter, inches)</label>
-                        <input type="number" id="turning-allowance" name="turning_allowance" step="0.001" value="0.125">
-                    </div>
-                </div>
-            </div>
-        </div>
 
 
 
  
-        <button type="submit" class="btn btn-primary">Calculate Stock Size</button>
+        <button type="submit" class="btn btn-primary">Add Part</button>
     </form>
 
-    <div id="results" class="section hidden" style="margin-top: 2rem; background: #e8f5e9;">
-        <h3>Stock Size Recommendation</h3>
-        <div id="stock-results"></div>
-    </div>
 </div>
 {% endblock %}
+
+<!-- Success modal -->
+<div id="success-modal" class="modal hidden" aria-hidden="true">
+    <div class="modal-overlay" id="modal-overlay"></div>
+    <div class="modal-content" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+        <button class="modal-close" id="modal-close" aria-label="Close">&times;</button>
+        <h3 id="modal-title">Part added</h3>
+        <div id="modal-body"></div>
+    </div>
+</div>
 
 {% block extra_styles %}
 <style>
@@ -164,79 +82,53 @@
     .result-item strong {
         color: #2c3e50;
     }
+
+    /* Modal styles */
+    .modal {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        z-index: 1000;
+    }
+
+    .modal.hidden { display: none !important; }
+
+    .modal-overlay {
+        position: absolute;
+        top: 0; left: 0; right: 0; bottom: 0;
+        background: rgba(0,0,0,0.5);
+    }
+
+    .modal-content {
+        position: relative;
+        background: #fff;
+        padding: 1.5rem;
+        border-radius: 6px;
+        box-shadow: 0 8px 24px rgba(0,0,0,0.2);
+        z-index: 1010;
+        max-width: 520px;
+        width: 90%;
+    }
+
+    .modal-close {
+        position: absolute;
+        top: 0.5rem;
+        right: 0.5rem;
+        background: transparent;
+        border: none;
+        font-size: 1.5rem;
+        cursor: pointer;
+    }
 </style>
 {% endblock %}
 
 {% block scripts %}
 <script>
-    // Toggle operation-specific dimensions
-    document.getElementById('operation').addEventListener('change', function() {
-        const operation = this.value;
-        const lengthGroup = document.querySelector('[for="length"]').closest('.form-group');
-        const diameterGroup = document.getElementById('diameter-group');
-        const stockTypeGroup = document.querySelector('[for="stock-type"]').closest('.form-group');
-
-        // Show/hide fields based on operation
-        if (operation === 'turning') {
-            // Turning: show length and diameter, hide stock type (always round)
-            lengthGroup.classList.remove('hidden');
-            lengthGroup.querySelector('input').required = true;
-            diameterGroup.classList.remove('hidden');
-            diameterGroup.querySelector('input').required = true;
-            stockTypeGroup.classList.add('hidden');
-            document.getElementById('stock-type').value = 'round';
-        } else if (operation === 'milling') {
-            // Milling: show all dimensions and stock type
-            lengthGroup.classList.remove('hidden');
-            lengthGroup.querySelector('input').required = true;
-            stockTypeGroup.classList.remove('hidden');
-            // Let stock type selection control diameter visibility
-        } else if (operation === 'grinding' || operation === 'drilling') {
-            // Grinding/Drilling: show length and diameter by default
-            lengthGroup.classList.remove('hidden');
-            lengthGroup.querySelector('input').required = true;
-            diameterGroup.classList.remove('hidden');
-            diameterGroup.querySelector('input').required = true;
-            stockTypeGroup.classList.remove('hidden');
-        } else {
-            // No operation selected - show stock type selector
-            stockTypeGroup.classList.remove('hidden');
-        }
-    });
-
-    // Toggle stock type fields
-    document.getElementById('stock-type').addEventListener('change', function() {
-        const stockType = this.value;
-        const diameterGroup = document.getElementById('diameter-group');
-        const widthGroup = document.getElementById('width-group');
-        const heightGroup = document.getElementById('height-group');
-
-        if (stockType === 'round') {
-            diameterGroup.classList.remove('hidden');
-            diameterGroup.querySelector('input').required = true;
-            widthGroup.classList.add('hidden');
-            widthGroup.querySelector('input').required = false;
-            heightGroup.classList.add('hidden');
-            heightGroup.querySelector('input').required = false;
-        } else {
-            diameterGroup.classList.add('hidden');
-            diameterGroup.querySelector('input').required = false;
-            widthGroup.classList.remove('hidden');
-            widthGroup.querySelector('input').required = true;
-            heightGroup.classList.remove('hidden');
-            heightGroup.querySelector('input').required = true;
-        }
-    });
-
-    // Toggle operation details
-    document.getElementById('has-lathe').addEventListener('change', function() {
-        document.getElementById('lathe-details').classList.toggle('hidden', !this.checked);
-    });
-
-    document.getElementById('has-milling').addEventListener('change', function() {
-        document.getElementById('milling-details').classList.toggle('hidden', !this.checked);
-    });
-
     // Form submission
     document.getElementById('part-form').addEventListener('submit', async function(e) {
         e.preventDefault();
@@ -244,44 +136,14 @@
         const formData = new FormData(this);
         const data = {
             name: formData.get('name'),
-            material_type: formData.get('material_type'),
-            dimensions: {
-                length: parseFloat(formData.get('length')),
-                diameter: formData.get('diameter') ? parseFloat(formData.get('diameter')) : null,
-                width: formData.get('width') ? parseFloat(formData.get('width')) : null,
-                height: formData.get('height') ? parseFloat(formData.get('height')) : null
-            },
-            quantity: parseInt(formData.get('quantity')),
-            extra_quantity: parseInt(formData.get('extra_quantity')) || 0,
-            tolerances: {
-                general: parseFloat(formData.get('general_tolerance')),
-                tight: parseFloat(formData.get('tight_tolerance'))
-            },
-            operations: {}
+            external_part_number: formData.get('external_part_number'),
+            external_part_name: formData.get('external_part_name'),
+            revision_number: formData.get('revision_number'),
+            approval_engineer: formData.get('approval_engineer'),
+            company_name: formData.get('company_name') || null,
         };
 
-        // Lathe operations
-        if (formData.get('has_lathe')) {
-            data.operations.lathe = {
-                chuck_grip: parseFloat(formData.get('chuck_grip')),
-                buffer_clearance: parseFloat(formData.get('buffer_clearance')),
-                cutoff_thickness: parseFloat(formData.get('cutoff_thickness')),
-                face_thickness: parseFloat(formData.get('face_thickness')),
-                turning_allowance: parseFloat(formData.get('turning_allowance'))
-            };
-        }
 
-        // Milling operations
-        if (formData.get('has_milling')) {
-            data.operations.milling = {
-                length_allowance: parseFloat(formData.get('milling_length_allowance')),
-                width_allowance: parseFloat(formData.get('milling_width_allowance')),
-                height_allowance: parseFloat(formData.get('milling_height_allowance'))
-            };
-        }
-
-        // Welding flag
-        data.operations.welding = !!formData.get('has_welding');
 
         try {
             const response = await fetch('/api/parts', {
@@ -294,8 +156,13 @@
 
             if (response.ok) {
                 const result = await response.json();
-                displayResults(result.stock_recommendation);
                 showAlert('Part added successfully!', 'success');
+                // Show modal with details about the added part (use posted data plus server result)
+                try {
+                    showModal(data, result);
+                } catch (e) {
+                    console.error('Failed to show modal', e);
+                }
             } else {
                 showAlert('Error adding part', 'error');
             }
@@ -303,30 +170,6 @@
             showAlert('Error: ' + error.message, 'error');
         }
     });
-
-    function displayResults(stock) {
-        const resultsDiv = document.getElementById('stock-results');
-        let html = '<div class="result-item"><strong>Recommended Stock Size:</strong></div>';
-        
-        html += `<div class="result-item">Length: <strong>${stock.length}"</strong></div>`;
-        
-        if (stock.diameter) {
-            html += `<div class="result-item">Diameter: <strong>${stock.diameter}"</strong></div>`;
-        }
-        
-        if (stock.width) {
-            html += `<div class="result-item">Width: <strong>${stock.width}"</strong></div>`;
-        }
-        
-        if (stock.height) {
-            html += `<div class="result-item">Height: <strong>${stock.height}"</strong></div>`;
-        }
-        
-        html += `<div class="result-item">Material: <strong>${stock.material_type}</strong></div>`;
-        
-        resultsDiv.innerHTML = html;
-        document.getElementById('results').classList.remove('hidden');
-    }
 
     function showAlert(message, type) {
         const alertContainer = document.getElementById('alert-container');
@@ -336,6 +179,56 @@
         setTimeout(() => {
             alertContainer.innerHTML = '';
         }, 3000);
+    }
+
+    // Modal helpers
+    function showModal(postedData, serverResult) {
+        const modal = document.getElementById('success-modal');
+        const body = document.getElementById('modal-body');
+
+        const name = postedData.name || postedData.external_part_name || 'Unnamed part';
+        const extNum = postedData.external_part_number || '';
+        const revision = postedData.revision_number || '';
+        const engineer = postedData.approval_engineer || '';
+        const company = postedData.company_name || '';
+
+        // Build HTML summary
+        let html = '<div style="margin-top:0.5rem">';
+        html += `<div><strong>Name:</strong> ${escapeHtml(name)}</div>`;
+        if (extNum) html += `<div><strong>External #:</strong> ${escapeHtml(extNum)}</div>`;
+        if (revision) html += `<div><strong>Revision:</strong> ${escapeHtml(revision)}</div>`;
+        if (engineer) html += `<div><strong>Approval Engineer:</strong> ${escapeHtml(engineer)}</div>`;
+        if (company) html += `<div><strong>Company:</strong> ${escapeHtml(company)}</div>`;
+
+        html += '</div>';
+        body.innerHTML = html;
+
+        modal.classList.remove('hidden');
+        modal.setAttribute('aria-hidden', 'false');
+    }
+
+    function hideModal() {
+        const modal = document.getElementById('success-modal');
+        modal.classList.add('hidden');
+        modal.setAttribute('aria-hidden', 'true');
+    }
+
+    // Close handlers
+    document.addEventListener('click', function (e) {
+        const modal = document.getElementById('success-modal');
+        if (!modal) return;
+        if (e.target && e.target.id === 'modal-close') hideModal();
+        if (e.target && e.target.id === 'modal-overlay') hideModal();
+    });
+
+    // Basic HTML escape
+    function escapeHtml(str) {
+        return String(str)
+            .replace(/&/g, '&amp;')
+            .replace(/</g, '&lt;')
+            .replace(/>/g, '&gt;')
+            .replace(/"/g, '&quot;')
+            .replace(/'/g, '&#39;');
     }
 </script>
 {% endblock %}
