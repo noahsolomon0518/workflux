@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+{% block content %}
+
+<script src="{{ url_for('static', filename='js/create.js') }}"></script>
+<h2>Group</h2>
+<input id="group_name" placeholder={{ group.group_name if group else 'Group Name' }}>
+<hr>
+
+<div id="parts-container">
+    {% if group %}
+        {% for part in group.base_stocks %}
+        <script>
+            addPart({
+                    customer: "{{ part.customer.company_name }}",
+                    external_part_number: "{{ part.external_part_number }}",
+                    external_part_name: "{{ part.external_part_name }}",
+                    quantity: "{{ part.quantity }}",
+                    extra_parts: "{{ part.extra_parts }}",
+                    revision_number: "{{ part.revision_number }}",
+                    approval_engineer: "{{ part.approval_engineer }}",
+                    od: "{{ part.lathe_stocks[0].overall_outer_dimensions }}",
+                    length: "{{ part.lathe_stocks[0].overall_length }}",
+                    bar_or_slug: "{{ part.lathe_stocks[0].bar_or_slug }}",
+                    workholding_grip: "{{ part.lathe_stocks[0].workholding_grip }}",
+                    clearance: "{{ part.lathe_stocks[0].clearance }}",
+                    cutoff_blade_width: "{{ part.lathe_stocks[0].cutoff_blade_width }}",
+                    clean_axial_stock: "{{ part.lathe_stocks[0].clean_axial_stock }}",
+                    clean_radial_stock: "{{ part.lathe_stocks[0].clean_radial_stock }}",
+                    round_outer_dimensions: "{{ part.lathe_stocks[0].round_outer_dimensions }}",
+                    round_length: "{{ part.lathe_stocks[0].round_length }}"
+                });
+        </script>
+        {% endfor %}
+    {% endif %}
+</div>
+
+<button onclick="addPart()">➕ Add Part</button>
+<button onclick="saveAll()">💾 Save</button>
+
+<div id="error-message" style="color: red; margin-top: 10px; display: none;">
+    Please fix the errors in the highlighted forms.
+</div>
+
+<div id="success-message" style="color: green; margin-top: 10px; display: none;">
+    Successfully saved all parts.
+</div>
+
+<datalist id="customer-list"></datalist>
+
+{% endblock %}

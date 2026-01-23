@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+{% block content %}
+
+<h1>All Groups</h1>
+
+<div id="groups-container">
+    {% for group in groups %}
+    <div class="group-card">
+        <div class="group-header">
+            <div class="left">
+                <strong>{{ group.group_name }}</strong> (ID: {{ group.id }})
+            </div>
+            <div class="right">
+                <button class="edit-btn" onclick="editGroup({{ group.id }})">Edit</button>
+                <button class="delete-btn" onclick="deleteGroup({{ group.id }})">Delete</button>
+            </div>
+        </div>
+        <div class="group-details">
+            <p>Number of Base Stocks: {{ group.base_stocks|length }}</p>
+            <ul>
+                {% for part in group.base_stocks %}
+                <li>{{ part.external_part_number }} - {{ part.external_part_name }} (Qty: {{ part.quantity }})</li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+
+<script src="{{ url_for('static', filename='js/groups.js') }}"></script>
+{% endblock %}

@@ -1,28 +1,38 @@
-from flask import Flask, render_template, request, jsonify
-from datetime import datetime
+from flask import Flask, render_template
 from flask_sqlalchemy import SQLAlchemy
-import json
+from models import db, Customer
+from urllib.parse import quote_plus
+
+PW = quote_plus('Go@tee135')
 
 app = Flask(__name__)
 app.config["SQLALCHEMY_DATABASE_URI"] = (
-    "postgresql://postgres:password@localhost:5432/part_tracking"
+    f"postgresql://noahsolomon:{PW}@10.0.0.122:5432/workflux"
 )
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
-db = SQLAlchemy(app)
-
-# In-memory storage (will be replaced with a database later)
-parts = []
-material_cache = {}
-
-@app.route('/')
-def index():
-    return render_template('index.html')
-
-@app.route('/parts')
-def parts_list():
-    return render_template('parts.html', parts=parts)
 
 
+def register_blueprints():
+    from routes.create import create_bp
+    from routes.groups import groups_bp
+    from routes.calculate import calculate_bp
+    app.register_blueprint(create_bp, url_prefix="/create")
+    app.register_blueprint(groups_bp, url_prefix="/groups")
+    app.register_blueprint(calculate_bp, url_prefix="/calculate")
+    return app
+
+@app.route("/")
+def base():
+    return render_template('base.html')
+
+@app.route("/customers")
+def customers():
+    customers = Customer.query.order_by(Customer.company_name).all()
+    return {
+        "customers": [c.company_name for c in customers]
+    }
 
 if __name__ == '__main__':
+    app = register_blueprints()
+    db.init_app(app)
     app.run(debug=True, port=5000)

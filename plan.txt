@@ -1,0 +1,18 @@
+create
+    navbar - links to all other pages
+    group input - Can set Group parameters
+    base stock input - can set BaseStock parameters
+    operation specific stock input - can set <operation>Stock parameters
+    + - Add another part
+    save - save the group in the database. This sends a post request to the function save_group and returns error code. If successful clear all input otherwise flash error in red below.
+
+group 
+    navbar - Links to all other pages
+    groups - List of all groups that have been created. Initially each group is only has general information visable but clicking on it reveals more information
+
+calculate
+    navbar - Links to all other pages
+    select groups - have half of the page be list of groups with general information (can show more info if click will expand) and other half be selection of groups. Can drag groups from left to right to select
+
+
+optimize

@@ -1,0 +1,20 @@
+[Setting up database]
+    sudo -i -u postgres
+    psql
+    CREATE DATABASE workflux
+    CREATE USER user WITH PASSWORD <pw>
+    GRANT ALL PRIVILEGES ON DATABASE workflux TO user
+
+
+[When updating database need to make changes in]
+    models.py
+    create.js
+    create.py
+
+
+[Things still need to add]
+    specific form validation - done
+    drop downs and auto complete - done
+    error when try to save with no parts - done
+    customer switches to customer id in post request 
+    backend error validation

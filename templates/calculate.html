@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+{% block content %}
+
+<h2>Calculate Optimal Stock</h2>
+
+<div class="layout">
+    <div class="column">
+        <h3>Available Groups</h3>
+        <div id="groups-left" class="group-container dropzone">
+            {% for group in groups %}
+                <div class="group-card" draggable="true" data-id="{{ group.id }}">
+                    {{ group.group_name }}
+
+                    <div class="group-details" style="display: none; margin-top: 5px;">
+                    {% for part in group.base_stocks %}
+                        <div class="part-detail" style="margin-bottom: 5px; border-top: 1px dashed #ccc; padding-top: 5px;">
+                            <strong>Customer:</strong> {{ part.customer.company_name }}<br>
+                            <strong>Part #:</strong> {{ part.external_part_number }}<br>
+                            <strong>Part Name:</strong> {{ part.external_part_name }}<br>
+                            <strong>Revision:</strong> {{ part.revision_number }}<br>
+                            <strong>Lathe:</strong> OD: {{ part.lathe_stocks[0].overall_outer_dimensions if part.lathe_stocks else 'N/A' }}, 
+                            Length: {{ part.lathe_stocks[0].overall_length if part.lathe_stocks else 'N/A' }},
+                            Bar/Slug: {{ part.lathe_stocks[0].bar_or_slug if part.lathe_stocks else 'N/A' }}
+                        </div>
+                    {% endfor %}
+            </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+
+    <div class="column">
+        <h3>Selected Groups</h3>
+        <div id="groups-right" class="group-container dropzone"></div>
+    </div>
+</div>
+
+<button id="calculate-btn">Calculate</button>
+
+<script src="{{ url_for('static', filename='js/calculate.js') }}"></script>
+{% endblock %}
