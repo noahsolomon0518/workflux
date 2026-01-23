@@ -7,7 +7,7 @@ PW = quote_plus('temp')
 
 app = Flask(__name__)
 app.config["SQLALCHEMY_DATABASE_URI"] = (
-    f"postgresql://noahsolomon:{PW}@10.0.0.122:5432/workflux"
+    f"postgresql://noahsolomon:Mqv4ZJXyFzsphw1B9sX5sImVx29OJZpJ@dpg-d5pee6p4tr6s73aq6qng-a.oregon-postgres.render.com/workflux"
 )
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 

@@ -6,8 +6,7 @@ from models import Customer, Group, BaseStock, LatheStock
 from make_dummy_data import generate
 
 # Postgres connection string
-PW = quote_plus('temp')
-DATABASE_URL = f"postgresql+psycopg2://noahsolomon:{PW}@10.0.0.122:5432/workflux"
+DATABASE_URL = f"postgresql://noahsolomon:Mqv4ZJXyFzsphw1B9sX5sImVx29OJZpJ@dpg-d5pee6p4tr6s73aq6qng-a.oregon-postgres.render.com/workflux"
 
 # Create engine
 engine = create_engine(DATABASE_URL, echo=True)
