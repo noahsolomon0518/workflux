@@ -3,7 +3,7 @@ from flask_sqlalchemy import SQLAlchemy
 from models import db, Customer
 from urllib.parse import quote_plus
 
-PW = quote_plus('Go@tee135')
+PW = quote_plus('temp')
 
 app = Flask(__name__)
 app.config["SQLALCHEMY_DATABASE_URI"] = (
@@ -32,7 +32,7 @@ def customers():
         "customers": [c.company_name for c in customers]
     }
 
+app = register_blueprints()
+db.init_app(app)
 if __name__ == '__main__':
-    app = register_blueprints()
-    db.init_app(app)
     app.run(debug=True, port=5000)
